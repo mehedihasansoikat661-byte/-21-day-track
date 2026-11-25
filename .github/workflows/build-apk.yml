@@ -15,7 +15,7 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir extracted
-          unzip -q 21DayTracker-Phone-Cloud-Build.zip -d extracted
+          unzip -q RESTART-Android-Project-Correct-Icon.zip -d extracted
           SETTINGS_FILE=$(find extracted \( -name settings.gradle.kts -o -name settings.gradle \) -print -quit)
           if [ -z "$SETTINGS_FILE" ]; then
             echo "Gradle settings file not found"
@@ -72,6 +72,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: 21-Day-Tracker-APK
+          name: RESTART-APK
           path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
           
