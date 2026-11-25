@@ -24,14 +24,25 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir extracted
-          unzip -q RESTART-Android-Project-With-Name.zip -d extracted
+          unzip -q "RESTART-Android-Project-With-Name(2).zip" -d extracted
+
           SETTINGS_FILE=$(find extracted -name settings.gradle.kts -print -quit)
+
           if [ -z "$SETTINGS_FILE" ]; then
             echo "Gradle settings file not found"
             exit 1
           fi
+
           PROJECT_DIR=$(dirname "$SETTINGS_FILE")
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+
+      - name: Verify JVM targets
+        run: |
+          echo "Checking app/build.gradle.kts"
+          cat "$PROJECT_DIR/app/build.gradle.kts"
+
+          grep -q 'JavaVersion.VERSION_17' "$PROJECT_DIR/app/build.gradle.kts"
+          grep -q 'jvmTarget = "17"' "$PROJECT_DIR/app/build.gradle.kts"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
